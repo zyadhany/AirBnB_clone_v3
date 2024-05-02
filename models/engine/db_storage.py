@@ -41,6 +41,21 @@ class DBStorage:
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
 
+    def count(self, cls=None):
+        ''' count of objects of class '''
+        obj_dict = self.all(cls)
+        return len(obj_dict)
+
+    def get(self, cls, id):
+        ''' gett object by id '''
+
+        objs = self.all(cls)
+        obj_str = cls + '.' + id
+        for key, val in objs.items():
+            if key == obj_str:
+                return val
+        return None
+
     def delete(self, obj=None):
         """delete object from storage"""
         if obj is None:

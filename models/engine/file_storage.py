@@ -20,6 +20,20 @@ class FileStorage:
         if key in self.__objects:
             del self.__objects[key]
 
+    def count(self, cls=None):
+        ''' count of objects of class '''
+        obj_dict = self.all(cls)
+        return len(obj_dict)
+
+    def get(self, cls, id):
+        ''' gett object by id '''
+        objs = self.all(cls)
+        obj_str = cls + '.' + id
+        for key, val in objs.items():
+            if key == obj_str:
+                return val
+        return None
+
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
         if cls:
