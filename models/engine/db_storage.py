@@ -50,7 +50,7 @@ class DBStorage:
         ''' gett object by id '''
 
         objs = self.all(cls)
-        obj_str = cls + '.' + id
+        obj_str = cls.__name__ + '.' + id
         for key, val in objs.items():
             if key == obj_str:
                 return val
@@ -68,16 +68,16 @@ class DBStorage:
 
     def all(self, cls=None):
         """Returns a dictionary of models currently in storage"""
+
         res = {}
         if cls is None:
-            cls = classes.keys()
+            cls = classes.values()
         else:
             cls = [cls]
-
         for ind in cls:
-            if ind not in classes:
+            if ind not in classes.values():
                 continue
-            que = self.__session.query(classes[ind]).all()
+            que = self.__session.query(ind).all()
             for obj in que:
                 key = "{}.{}".format(obj.__class__.__name__, obj.id)
                 res[key] = obj
