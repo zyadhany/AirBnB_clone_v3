@@ -28,7 +28,7 @@ class FileStorage:
     def get(self, cls, id):
         ''' gett object by id '''
         objs = self.all(cls)
-        obj_str = cls + '.' + id
+        obj_str = cls.__name__ + '.' + id
         for key, val in objs.items():
             if key == obj_str:
                 return val
