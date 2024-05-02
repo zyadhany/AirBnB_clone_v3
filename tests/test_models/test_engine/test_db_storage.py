@@ -18,6 +18,7 @@ import json
 import os
 import pycodestyle
 import unittest
+from models import storage
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
            "Review": Review, "State": State, "User": User}
@@ -66,6 +67,25 @@ test_db_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+    def test_get(self):
+        ''' Test if get method retrieves obj requested '''
+        new_state = State(name="PortSaid")
+        storage.new(new_state)
+        key = "State.{}".format(new_state.id)
+        result = storage.get(State, new_state.id)
+        self.assertTrue(result.id, new_state.id)
+        self.assertIsInstance(result, State)
+
+    def test_count(self):
+        ''' test count '''
+        storage.reload()
+        old_count = storage.count("State")
+        st1 = State(name="PortSaid")
+        st2 = State(name="cairo")
+        storage.new(st1)
+        storage.new(st2)
+        self.assertEqual(old_count + 2, storage.count("State"))
 
 
 class TestFileStorage(unittest.TestCase):
