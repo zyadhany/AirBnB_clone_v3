@@ -21,6 +21,12 @@ def tear(self):
     storage.close()
 
 
+@app.errorhandler(404)
+def not_found(error):
+    ''' handle error '''
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
+
 if __name__ == '__main__':
     HBNB_API_HOST = '0.0.0.0'
     if getenv("HBNB_API_HOST") is not None:
