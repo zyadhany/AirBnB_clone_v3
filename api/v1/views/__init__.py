@@ -12,3 +12,4 @@ if app_views is not None:
     from .users import *
     from .places import *
     from .places_reviews import *
+    from .places_amenities import *
