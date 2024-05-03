@@ -19,7 +19,6 @@ def list_states():
 def get_state(state_id):
     '''get id'''
     state = storage.get(State, state_id)
-    print(state, "||||||\n"*10)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -35,3 +34,28 @@ def delete_state(state_id):
     storage.delete(state)
     storage.save()
     return jsonify({}), 200
+
+
+@app_views.route('/states/', methods=['POST'])
+def create_state():
+    '''Creates a State'''
+    if not request.get_json():
+        abort(400, 'Not a JSON')
+    if 'name' not in request.get_json():
+        abort(400, 'Missing name')
+    state = State(name=request.json['name'])
+    state.save()
+    return jsonify(state.to_dict()), 201
+
+
+@app_views.route('/states/<state_id>', methods=['PUT'])
+def updates_state(state_id):
+    '''Updates a State object'''
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    if not request.get_json():
+        abort(400, 'Not a JSON')
+    state.name = request.json['name']
+    state.save()
+    return jsonify(state), 200
