@@ -18,15 +18,18 @@ def list_amenities_of_place(place_id):
 
     # Handle based on storage type (DBStorage vs. FileStorage)
     if isinstance(storage, storage.DBStorage):
-        amenities = [obj.to_dict() for obj in place.amenities]  # DBStorage relationship
+        amenities = [obj.to_dict() for obj in place.amenities]
     else:
         amenity_ids = place.amenity_ids
-        amenities = [storage.get(Amenity, amenity_id).to_dict() for amenity_id in amenity_ids]
+        amenities = [storage.get
+                     (Amenity, amenity_id).to_dict()
+                     for amenity_id in amenity_ids]
 
     return jsonify(amenities)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['DELETE'])
+@app_views.route('/places/<place_id>/amenities/<amenity_id>',
+                 methods=['DELETE'])
 def delete_amenity_of_place(place_id, amenity_id):
     '''Deletes a Amenity object from a Place'''
     place = storage.get(Place, place_id)
@@ -37,9 +40,12 @@ def delete_amenity_of_place(place_id, amenity_id):
         abort(404)
 
     # Check if Amenity is linked to the Place before deletion
-    if (isinstance(storage, storage.DBStorage) and amenity not in place.amenities) or \
-       (not isinstance(storage, storage.DBStorage) and amenity_id not in place.amenity_ids):
-        abort(404)
+    if isinstance(storage, storage.DBStorage):
+        if amenity not in place.amenities:
+            abort(404)
+    if not isinstance(storage, storage.DBStorage):
+        if amenity_id not in place.amenity_ids:
+            abort(404)
 
     if isinstance(storage, storage.DBStorage):
         place.amenities.remove(amenity)  # DBStorage relationship deletion
@@ -61,9 +67,12 @@ def link_amenity_to_place(place_id, amenity_id):
         abort(404)
 
     # Check if Amenity is already linked to the Place
-    if (isinstance(storage, storage.DBStorage) and amenity in place.amenities) or \
-       (not isinstance(storage, storage.DBStorage) and amenity_id in place.amenity_ids):
-        return jsonify(amenity.to_dict()), 200
+    if isinstance(storage, storage.DBStorage):
+        if amenity in place.amenities:
+            return jsonify(amenity.to_dict()), 200
+    if not isinstance(storage, storage.DBStorage):
+        if amenity_id in place.amenity_ids:
+            return jsonify(amenity.to_dict()), 200
 
     if isinstance(storage, storage.DBStorage):
         place.amenities.append(amenity)  # DBStorage relationship linking
@@ -72,4 +81,3 @@ def link_amenity_to_place(place_id, amenity_id):
 
     storage.save(place)
     return jsonify(amenity.to_dict()), 201
-
