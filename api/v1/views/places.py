@@ -21,6 +21,17 @@ def list_places_of_city(city_id):
     return jsonify(places)
 
 
+@app_views.route('/cities/<city_id>/places', methods=['GET'])
+def list_places_of_city(city_id):
+    '''Retrieves the list of all Place objects of a City'''
+    city = storage.get(City, city_id)
+    if city is None:
+        abort(404)
+
+    places = [obj.to_dict() for obj in city.places]
+    return jsonify(places)
+
+
 @app_views.route('/places/<place_id>', methods=['GET'])
 def get_place(place_id):
     '''Retrieves a Place object'''

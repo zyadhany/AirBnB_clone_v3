@@ -61,7 +61,8 @@ def create_review(place_id):
     if 'text' not in request.get_json():
         abort(400, 'Missing text')
 
-    review = Review(user_id=user.id, place_id=place.id, text=request.get_json()['text'])
+    review = Review(user_id=user.id,
+                    place_id=place.id, text=request.get_json()['text'])
     storage.save(review)
     return jsonify(review.to_dict()), 201
 
