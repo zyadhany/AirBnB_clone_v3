@@ -44,7 +44,7 @@ def create_state():
     if 'name' not in request.get_json():
         abort(400, 'Missing name')
     state = State(name=request.json['name'])
-    state.save()
+    storage.save()
     return jsonify(state.to_dict()), 201
 
 
@@ -57,5 +57,5 @@ def updates_state(state_id):
     if not request.get_json():
         abort(400, 'Not a JSON')
     state.name = request.json['name']
-    state.save()
+    storage.save()
     return jsonify(state.to_dict()), 200
