@@ -59,7 +59,7 @@ def create_city(state_id):
         abort(404)
 
     city = City(name=request.json['name'], state_id=state_id)
-    city.save()
+    storage.save()
     return jsonify(city.to_dict()), 201
 
 
@@ -72,5 +72,5 @@ def updates_city(city_id):
     if not request.get_json():
         abort(400, 'Not a JSON')
     city.name = request.json['name']
-    city.save()
+    storage.save()
     return jsonify(city.to_dict()), 200
