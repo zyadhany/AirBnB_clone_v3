@@ -8,7 +8,7 @@ from datetime import datetime
 import uuid
 
 
-@app_views.route('/states/')
+@app_views.route('/states/', methods=['GET'])
 def list_states():
     '''get all states'''
     states = [obj.to_dict() for obj in storage.all(State).values()]
