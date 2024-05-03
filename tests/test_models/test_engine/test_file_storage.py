@@ -16,7 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pycodestyle
+import pep8
 import unittest
 from models import storage
 FileStorage = file_storage.FileStorage
@@ -32,15 +32,15 @@ class TestFileStorageDocs(unittest.TestCase):
         cls.fs_f = inspect.getmembers(FileStorage, inspect.isfunction)
 
     def test_pycodestyle_conformance_file_storage(self):
-        """Test that models/engine/file_storage.py conforms to pycodestyle."""
-        pycodestyles = pycodestyle.StyleGuide(quiet=True)
+        """Test that models/engine/file_storage.py conforms to pep8."""
+        pycodestyles = pep8.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['models/engine/file_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_pycodestyle_conformance_test_file_storage(self):
         """Test tests/test_models/test_file_storage.py conforms to."""
-        pycodestyles = pycodestyle.StyleGuide(quiet=True)
+        pycodestyles = pep8.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['tests/test_models/test_engine/\
 test_file_storage.py'])
         self.assertEqual(result.total_errors, 0,

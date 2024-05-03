@@ -8,7 +8,7 @@ import inspect
 import models
 from models import place
 from models.base_model import BaseModel
-import pycodestyle
+import pep8
 import unittest
 Place = place.Place
 
@@ -21,15 +21,15 @@ class TestPlaceDocs(unittest.TestCase):
         cls.place_f = inspect.getmembers(Place, inspect.isfunction)
 
     def test_pycodestyle_conformance_place(self):
-        """Test that models/place.py conforms to pycodestyle."""
-        pycodestyles = pycodestyle.StyleGuide(quiet=True)
+        """Test that models/place.py conforms to pep8."""
+        pycodestyles = pep8.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['models/place.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_pycodestyle_conformance_test_place(self):
         """Test that tests/test_models/test_place.py conforms to ."""
-        pycodestyles = pycodestyle.StyleGuide(quiet=True)
+        pycodestyles = pep8.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['tests/test_models/test_place.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")

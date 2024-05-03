@@ -16,7 +16,7 @@ from models.state import State
 from models.user import User
 import json
 import os
-import pycodestyle
+import pep8
 import unittest
 from models import storage
 DBStorage = db_storage.DBStorage
@@ -32,15 +32,15 @@ class TestDBStorageDocs(unittest.TestCase):
         cls.dbs_f = inspect.getmembers(DBStorage, inspect.isfunction)
 
     def test_pycodestyle_conformance_db_storage(self):
-        """Test that models/engine/db_storage.py conforms to pycodestyle."""
-        pycodestyles = pycodestyle.StyleGuide(quiet=True)
+        """Test that models/engine/db_storage.py conforms to pep8."""
+        pycodestyles = pep8.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['models/engine/db_storage.py'])
         self.assertEqual(result.total_errors, 0,
                          "Found code style errors (and warnings).")
 
     def test_pycodestyle_conformance_test_db_storage(self):
         """Test tests/test_models/test_db_storage.py conforms to ."""
-        pycodestyles = pycodestyle.StyleGuide(quiet=True)
+        pycodestyles = pep8.StyleGuide(quiet=True)
         result = pycodestyles.check_files(['tests/test_models/test_engine/\
 test_db_storage.py'])
         self.assertEqual(result.total_errors, 0,
