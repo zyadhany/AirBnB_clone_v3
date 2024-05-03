@@ -8,7 +8,6 @@ from datetime import datetime
 import uuid
 
 
-
 @app_views.route('/states/', methods=['GET'])
 def list_states():
     '''Retrieves the list of all State objects'''
