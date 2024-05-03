@@ -58,4 +58,4 @@ def updates_state(state_id):
         abort(400, 'Not a JSON')
     state.name = request.json['name']
     state.save()
-    return jsonify(state), 200
+    return jsonify(state.to_dict()), 200
