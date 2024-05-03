@@ -17,7 +17,7 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def tear(self):
-    ''' closes storage    '''
+    ''' closes storage  '''
     storage.close()
 
 
